@@ -363,27 +363,3 @@ Advantages:
 * Better for complex production changes
 
 ---
-
-# Best Practices
-
-* Always review generated migrations.
-* Always write a downgrade function.
-* Keep migrations small and focused.
-* Test upgrades and downgrades.
-* Backup production databases before migration.
-* Test migrations in staging before production deployment.
-
----
-
-# Practical Work Completed
-
-* Alembic installation and setup
-* Database configuration
-* Migration creation
-* Migration execution
-* Rollback execution
-* Migration history verification
-* Current revision verification
-* Migration file anatomy study
-* Production migration concepts
-* Overview of Flyway, Liquibase, Django Migrations, and Knex.js
