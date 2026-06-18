@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String , Index
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String , Index
 from .database import Base
 from sqlalchemy import DateTime
 from datetime import datetime
@@ -52,3 +52,19 @@ class Role(Base):
 
     id = Column(Integer, primary_key=True)
     role_name = Column(String(50), unique=True, nullable=False)
+
+
+class RefreshToken(Base):
+    __tablename__ = "refresh_tokens"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    token_hash = Column(String, unique=True, index=True)
+
+    expires_at = Column(DateTime)
+
+    is_revoked = Column(Boolean, default=False)
+
+    created_at = Column(DateTime, default=datetime.utcnow)
