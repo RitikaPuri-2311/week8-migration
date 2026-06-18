@@ -27,6 +27,20 @@ class User(Base):
         Index("ix_users_email", "email"),
     )
 
+    @property
+    def permissions(self):
+
+        if self.email == "admin@gmail.com":
+            return [
+                "users:admin",
+                "posts:write",
+                "posts:read"
+            ]
+
+        return [
+            "posts:read"
+        ]
+
 class Post(Base):
     __tablename__ = "posts"
 

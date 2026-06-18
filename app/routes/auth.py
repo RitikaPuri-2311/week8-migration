@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
+from app.dependencies import require_scope
+from app.dependencies import require_scope
 from app.jwt_handler import create_access_token, create_refresh_token, hash_token
 from app.models import RefreshToken
 from datetime import datetime
@@ -70,8 +72,16 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     # ACCESS TOKEN
-    access_token = create_access_token({"sub": user.email})
-
+    access_token = create_access_token(
+    {
+        "sub": user.email,
+        "scopes": [
+            "users:read",
+            "users:write"
+           
+        ]
+    }
+)
     # REFRESH TOKEN
     refresh_token, expires_at = create_refresh_token()
 
@@ -131,3 +141,4 @@ def logout(refresh_token: str, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": "Logged out successfully"}
+
