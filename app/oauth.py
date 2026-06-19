@@ -17,5 +17,3 @@ oauth.register(
     }
 )
 
-print(os.getenv("GOOGLE_CLIENT_ID"))
-print(os.getenv("GOOGLE_CLIENT_SECRET"))
