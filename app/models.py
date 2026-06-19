@@ -65,7 +65,7 @@ class Role(Base):
     __tablename__ = "roles"
 
     id = Column(Integer, primary_key=True)
-    role_name = Column(String(50), unique=True, nullable=False)
+    name = Column(String(50), unique=True, nullable=False)
 
 
 class RefreshToken(Base):
@@ -82,3 +82,42 @@ class RefreshToken(Base):
     is_revoked = Column(Boolean, default=False)
 
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Permission(Base):
+    __tablename__ = "permissions"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True)
+
+
+class UserRole(Base):
+    __tablename__ = "user_roles"
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        primary_key=True
+    )
+
+    role_id = Column(
+        Integer,
+        ForeignKey("roles.id"),
+        primary_key=True
+    )
+
+
+class RolePermission(Base):
+    __tablename__ = "role_permissions"
+
+    role_id = Column(
+        Integer,
+        ForeignKey("roles.id"),
+        primary_key=True
+    )
+
+    permission_id = Column(
+        Integer,
+        ForeignKey("permissions.id"),
+        primary_key=True
+    )
