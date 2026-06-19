@@ -12,7 +12,6 @@ async def google_login(request: Request):
         "google_callback"
     )
 
-    print("REDIRECT URI =", redirect_uri)
 
     return await oauth.google.authorize_redirect(
         request,
@@ -29,8 +28,6 @@ async def google_callback(request: Request):
     token = await oauth.google.authorize_access_token(
         request
     )
-
-    
 
     user = token.get("userinfo")
 

@@ -1,3 +1,5 @@
+import token
+
 import pytest
 from fastapi.testclient import TestClient
 from main import app
@@ -96,5 +98,30 @@ def test_expired_token():
         "/users/me",
         headers={"Authorization": f"Bearer {fake_token}"}
     )
+
+    assert response.status_code == 401
+
+def test_admin_route_with_scope():
+    login = client.post(
+        "/auth/login",
+        data={
+            "username": "admin@gmail.com",
+            "password": "admin123"
+        }
+    )
+
+    token = login.json()["access_token"]
+
+response = client.get(
+        "/users/admin",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+assert response.status_code == 200
+
+def test_admin_route_without_token():
+    response = client.get("/users/admin")
 
     assert response.status_code == 401
